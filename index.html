@@ -7,11 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS BIẾN & CƠ BẢN --- */
         :root {
-            --primary: #00e676; /* Xanh lá neon */
+            --primary: #00e676;
             --primary-dark: #00b35c;
-            --bg-dark: #050a07; /* Đen tối nền hơi ám xanh */
+            --bg-dark: #050a07;
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
             --glass-shadow: 0 8px 32px 0 rgba(0, 230, 118, 0.1);
@@ -19,24 +18,12 @@
             --text-muted: #a0aab2;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
-            position: relative;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; position: relative; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* --- HIỆU ỨNG LIQUID GLASS MỚI NHẤT --- */
+        /* Liquid Glass Effects */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -45,32 +32,26 @@
             box-shadow: var(--glass-shadow);
             border-radius: 24px;
             transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            overflow: hidden;
         }
-
         .glass-panel:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 40px 0 rgba(0, 230, 118, 0.2);
             border-color: rgba(0, 230, 118, 0.3);
         }
 
-        /* --- HIỆU ỨNG NƯỚC & BACKGROUND --- */
+        /* Water Background */
         .water-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
             background: radial-gradient(circle at 50% 50%, #0a1c12 0%, var(--bg-dark) 100%);
-            overflow: hidden;
         }
-
-        /* Giọt nước rơi ngược (Bọt khí) */
         .bubble {
-            position: absolute;
-            bottom: -50px;
+            position: absolute; bottom: -50px;
             background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(0, 230, 118, 0.2));
             border-radius: 50%;
             box-shadow: inset 0 0 10px rgba(255,255,255,0.3);
-            animation: rise infinite ease-in;
-            opacity: 0.6;
+            animation: rise infinite ease-in; opacity: 0.6;
         }
         @keyframes rise {
             0% { transform: translateY(0) scale(1); opacity: 0; }
@@ -78,99 +59,54 @@
             100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
         }
 
-        /* --- ANIMATION KHI CUỘN TRANG (JS Tương tác) --- */
-        .hidden-element {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .show-element {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        /* Animations */
+        .hidden-element { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .show-element { opacity: 1; transform: translateY(0); }
 
-        /* --- NAVBAR --- */
+        /* Navbar */
         nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: rgba(5, 10, 7, 0.7);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; background: rgba(5, 10, 7, 0.8);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border);
         }
         .logo { font-size: 24px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 10px; }
         .logo span { color: var(--primary); }
         .nav-links { display: flex; gap: 30px; }
         .nav-links a:hover { color: var(--primary); }
         .btn-hotline {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #000;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.4);
-            transition: 0.3s;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #000;
+            padding: 12px 24px; border-radius: 30px; font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.4); transition: 0.3s;
         }
         .btn-hotline:hover { box-shadow: 0 6px 20px rgba(0, 230, 118, 0.6); transform: scale(1.05); }
 
-        /* --- HERO SECTION --- */
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 120px 5% 50px;
-            position: relative;
-        }
-        .hero-content {
-            flex: 1;
-            z-index: 2;
-        }
+        /* Hero Section */
+        #hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 5% 50px; }
+        .hero-content { flex: 1; z-index: 2; }
         .hero-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(0, 230, 118, 0.1);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
+            display: inline-block; padding: 8px 16px; background: rgba(0, 230, 118, 0.1);
+            color: var(--primary); border: 1px solid var(--primary); border-radius: 20px;
+            font-size: 14px; font-weight: 600; margin-bottom: 20px;
         }
         .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
+            font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px;
             background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .hero-desc { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; max-width: 500px; line-height: 1.6; }
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            z-index: 2;
-        }
-        /* Glowing effect sau máy lọc nước */
+        .hero-image { flex: 1; display: flex; justify-content: center; position: relative; z-index: 2; }
         .hero-image::before {
-            content: '';
-            position: absolute;
-            width: 300px; height: 300px;
-            background: var(--primary);
-            filter: blur(150px);
-            opacity: 0.3;
-            z-index: -1;
+            content: ''; position: absolute; width: 300px; height: 300px;
+            background: var(--primary); filter: blur(150px); opacity: 0.3; z-index: -1;
         }
-        .hero-image img {
-            max-width: 80%;
-            border-radius: 20px;
-            transform: translateY(0);
+        
+        /* CSS CHỐNG VỠ BỐ CỤC ẢNH */
+        .img-hero-wrapper img {
+            max-width: 100%; width: 400px; min-height: 500px; 
+            object-fit: cover; border-radius: 20px;
+            background: rgba(0, 230, 118, 0.05); /* Nền chờ khi ảnh lỗi */
+            color: var(--primary); text-align: center; line-height: 500px; /* Text alt ở giữa */
             animation: float-img 6s ease-in-out infinite;
         }
         @keyframes float-img {
@@ -178,88 +114,52 @@
             50% { transform: translateY(-20px); }
         }
 
-        /* --- CÁC SECTION CHUNG --- */
+        /* Sections */
         section { padding: 80px 5%; position: relative; z-index: 2; }
         .section-header { text-align: center; margin-bottom: 60px; }
         .section-title { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
         .section-title span { color: var(--primary); }
         .section-subtitle { color: var(--text-muted); }
 
-        /* --- TÍNH NĂNG (FEATURES) --- */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        .feature-card {
-            padding: 40px 30px;
-            text-align: center;
-        }
-        .feature-icon {
-            font-size: 40px;
-            color: var(--primary);
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
-        }
+        /* Features */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .feature-card { padding: 40px 30px; text-align: center; }
+        .feature-icon { font-size: 40px; color: var(--primary); margin-bottom: 20px; text-shadow: 0 0 15px rgba(0, 230, 118, 0.5); }
         .feature-card h3 { margin-bottom: 15px; font-size: 1.2rem; }
         .feature-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
 
-        /* --- SẢN PHẨM & CỬA HÀNG (GALLERY/PRODUCTS) --- */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        .product-card {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+        /* Products / Store */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .product-card { display: flex; flex-direction: column; padding-bottom: 20px; }
+        
+        /* CSS CHỐNG VỠ ẢNH CARD */
+        .img-placeholder {
+            width: 100%; height: 250px; 
+            background: rgba(0, 230, 118, 0.05); /* Nền mờ chờ ảnh load */
+            display: flex; align-items: center; justify-content: center;
         }
         .product-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 16px;
-            margin-bottom: 20px;
+            width: 100%; height: 250px; object-fit: cover;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-muted); text-align: center; line-height: 250px;
         }
+        .product-info { padding: 25px 20px 0; }
         .product-info h3 { font-size: 1.3rem; margin-bottom: 10px; }
-        .product-price { color: var(--primary); font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; }
-        .btn-outline {
-            display: block;
-            text-align: center;
-            padding: 12px;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            border-radius: 12px;
-            transition: 0.3s;
-        }
-        .btn-outline:hover { background: var(--primary); color: #000; }
 
-        /* --- FOOTER --- */
-        footer {
-            background: #020503;
-            padding: 60px 5% 30px;
-            border-top: 1px solid var(--glass-border);
-            position: relative;
-            z-index: 2;
-        }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
+        /* Footer */
+        footer { background: #020503; padding: 60px 5% 30px; border-top: 1px solid var(--glass-border); position: relative; z-index: 2; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
         .footer-col h4 { color: var(--primary); margin-bottom: 20px; font-size: 1.2rem; }
         .footer-col p, .footer-col li { color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
         .footer-col i { color: var(--primary); width: 20px; margin-right: 10px; }
         .copyright { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.9rem; }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            #hero { flex-direction: column; text-align: center; padding-top: 150px; }
+            #hero { flex-direction: column; text-align: center; padding-top: 120px; }
             .hero-title { font-size: 2.5rem; }
             .hero-desc { margin: 0 auto 30px; }
-            .nav-links { display: none; } /* Mobile menu can be added later */
+            .nav-links { display: none; }
+            .img-hero-wrapper img { width: 100%; min-height: 350px; }
         }
     </style>
 </head>
@@ -268,9 +168,7 @@
     <div class="water-bg" id="water-bg"></div>
 
     <nav>
-        <div class="logo">
-            <i class="fa-solid fa-droplet"></i> MINH TÂM <span>BKA</span>
-        </div>
+        <div class="logo"><i class="fa-solid fa-droplet"></i> MINH TÂM <span>BKA</span></div>
         <ul class="nav-links">
             <li><a href="#hero">Trang Chủ</a></li>
             <li><a href="#features">Công Nghệ</a></li>
@@ -285,12 +183,10 @@
             <div class="hero-badge">Đại Lý Ủy Quyền Chính Hãng</div>
             <h1 class="hero-title">TINH HOA NƯỚC SẠCH<br>CHO GIA ĐÌNH VIỆT</h1>
             <p class="hero-desc">Bảo vệ sức khỏe trọn vẹn với công nghệ lọc nước RO hiện đại từ Kangaroo. Nước kiềm Hydrogen giúp trẻ hóa, tăng cường đề kháng mỗi ngày.</p>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center-left;">
-                <a href="#store" class="btn-hotline">Xem Sản Phẩm</a>
-            </div>
+            <a href="#store" class="btn-hotline">Khám Phá Cửa Hàng</a>
         </div>
-        <div class="hero-image hidden-element">
-            <img src="Screenshot 2026-06-22 at 9.49.18 AM.jpg" alt="Máy lọc nước Kangaroo Hydrogen" style="box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+        <div class="hero-image hidden-element img-hero-wrapper">
+            <img src="may-loc-nuoc.jpg" alt="Máy lọc nước Kangaroo">
         </div>
     </section>
 
@@ -303,22 +199,22 @@
             <div class="glass-panel feature-card hidden-element">
                 <i class="fa-solid fa-shield-virus feature-icon"></i>
                 <h3>Lọc Sạch 99.99%</h3>
-                <p>Màng lọc RO tiên tiến loại bỏ hoàn toàn vi khuẩn, amip, thạch tín và các tạp chất có hại trong nước.</p>
+                <p>Màng lọc RO tiên tiến loại bỏ hoàn toàn vi khuẩn, amip, thạch tín và các tạp chất có hại.</p>
             </div>
             <div class="glass-panel feature-card hidden-element" style="transition-delay: 0.1s;">
                 <i class="fa-solid fa-flask feature-icon"></i>
                 <h3>Nước Kiềm Hydrogen</h3>
-                <p>Bổ sung vi khoáng, tạo nước Hydrogen Ion kiềm giúp chống lão hóa và trung hòa axit dư thừa.</p>
+                <p>Bổ sung vi khoáng, tạo nước Hydrogen Ion kiềm giúp chống lão hóa.</p>
             </div>
             <div class="glass-panel feature-card hidden-element" style="transition-delay: 0.2s;">
                 <i class="fa-solid fa-leaf feature-icon"></i>
                 <h3>Tiết Kiệm Năng Lượng</h3>
-                <p>Hệ thống tự động ngắt điện khi đầy, tối ưu hóa công suất và siêu tiết kiệm điện năng cho gia đình.</p>
+                <p>Hệ thống tự động ngắt điện khi đầy, siêu tiết kiệm điện năng cho gia đình.</p>
             </div>
             <div class="glass-panel feature-card hidden-element" style="transition-delay: 0.3s;">
                 <i class="fa-solid fa-medal feature-icon"></i>
                 <h3>Thiết Kế Sang Trọng</h3>
-                <p>Kiểu dáng SLIM siêu mỏng, mặt kính cường lực đẳng cấp, phù hợp với mọi không gian nội thất.</p>
+                <p>Kiểu dáng SLIM siêu mỏng, mặt kính cường lực đẳng cấp, phù hợp mọi không gian.</p>
             </div>
         </div>
     </section>
@@ -326,37 +222,37 @@
     <section id="store">
         <div class="section-header hidden-element">
             <h2 class="section-title">Tại Sao Chọn <span>Minh Tâm BKA</span>?</h2>
-            <p class="section-subtitle">Luôn sẵn sàng phục vụ với số lượng lớn, giao hàng và lắp đặt tận nơi nhanh chóng.</p>
+            <p class="section-subtitle">Sẵn sàng phục vụ số lượng lớn, giao hàng và lắp đặt tận nơi nhanh chóng.</p>
         </div>
         
         <div class="product-grid">
             <div class="glass-panel product-card hidden-element">
-                <img src="Screenshot 2026-06-22 at 9.48.43 AM.jpg" alt="Showroom Minh Tâm BKA" class="product-img">
+                <div class="img-placeholder">
+                    <img src="showroom.jpg" alt="Showroom Minh Tâm BKA" class="product-img">
+                </div>
                 <div class="product-info">
                     <h3>Showroom Chính Hãng</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">
-                        Trải nghiệm trực tiếp hàng loạt mẫu mã Kangaroo, Toshiba, Mitsubishi mới nhất tại Showroom khang trang.
-                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Trải nghiệm trực tiếp hàng loạt mẫu mã Kangaroo, Toshiba, Mitsubishi mới nhất tại Showroom khang trang.</p>
                 </div>
             </div>
 
             <div class="glass-panel product-card hidden-element" style="transition-delay: 0.1s;">
-                <img src="Screenshot 2026-06-22 at 9.48.59 AM.jpg" alt="Kho hàng Kangaroo" class="product-img">
+                <div class="img-placeholder">
+                    <img src="kho-hang.jpg" alt="Kho hàng Kangaroo" class="product-img">
+                </div>
                 <div class="product-info">
                     <h3>Kho Hàng Dồi Dào</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">
-                        Cam kết hàng luôn có sẵn, 100% nguyên đai nguyên kiện từ nhà máy Kangaroo Việt Nam.
-                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Cam kết hàng luôn có sẵn, 100% nguyên đai nguyên kiện từ nhà máy Kangaroo Việt Nam.</p>
                 </div>
             </div>
 
             <div class="glass-panel product-card hidden-element" style="transition-delay: 0.2s;">
-                <img src="Screenshot 2026-06-22 at 9.49.10 AM.jpg" alt="Giao hàng tận nơi" class="product-img">
+                <div class="img-placeholder">
+                    <img src="giao-hang.jpg" alt="Giao hàng tận nơi" class="product-img">
+                </div>
                 <div class="product-info">
                     <h3>Vận Chuyển Chuyên Nghiệp</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">
-                        Đội ngũ xe tải riêng sẵn sàng giao máy và lắp đặt miễn phí tận nhà bạn nhanh nhất.
-                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Đội ngũ xe tải riêng sẵn sàng giao máy và lắp đặt miễn phí tận nhà bạn nhanh nhất.</p>
                 </div>
             </div>
         </div>
@@ -375,9 +271,7 @@
     <footer id="footer">
         <div class="footer-content">
             <div class="footer-col">
-                <div class="logo" style="margin-bottom: 20px;">
-                    <i class="fa-solid fa-droplet"></i> MINH TÂM <span>BKA</span>
-                </div>
+                <div class="logo" style="margin-bottom: 20px;"><i class="fa-solid fa-droplet"></i> MINH TÂM <span>BKA</span></div>
                 <p>Công ty CP TMTH Minh Tâm BKA - Đối tác tin cậy mang nguồn nước tinh khiết đến mỗi gia đình Việt.</p>
             </div>
             <div class="footer-col">
@@ -385,66 +279,45 @@
                 <ul>
                     <li><a href="#">Chính sách bảo hành</a></li>
                     <li><a href="#">Hướng dẫn mua hàng</a></li>
-                    <li><a href="#">Bảo mật thông tin</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Thông Tin Liên Hệ</h4>
                 <ul>
-                    <li><i class="fa-solid fa-location-dot"></i> Lô Biệt Thự A5 - Khu Đô Thị Dinh Mười - H. Quảng Ninh - Tỉnh Quảng Bình</li>
+                    <li><i class="fa-solid fa-location-dot"></i> Lô Biệt Thự A5 - Khu Đô Thị Dinh Mười - H. Quảng Ninh - Quảng Bình</li>
                     <li><i class="fa-solid fa-phone"></i> Hotline: 09xx.xxx.xxx</li>
-                    <li><i class="fa-solid fa-envelope"></i> Email: contact@minhtambka.com</li>
                 </ul>
             </div>
         </div>
-        <div class="copyright">
-            &copy; 2026 Minh Tâm BKA. All Rights Reserved. Thiết kế giao diện theo phong cách Liquid Glass.
-        </div>
+        <div class="copyright">&copy; 2026 Minh Tâm BKA. All Rights Reserved.</div>
     </footer>
 
     <script>
-        // 1. Tạo hiệu ứng bọt khí nước bay lên ở Background
+        // Hiệu ứng bong bóng nước
         const waterBg = document.getElementById('water-bg');
-        const bubbleCount = 30;
-
-        for(let i = 0; i < bubbleCount; i++) {
+        for(let i = 0; i < 30; i++) {
             let bubble = document.createElement('div');
             bubble.classList.add('bubble');
-            
-            // Random kích thước, vị trí, và tốc độ
-            let size = Math.random() * 15 + 5; // từ 5px đến 20px
-            let leftPos = Math.random() * 100; // từ 0 đến 100vw
-            let duration = Math.random() * 5 + 4; // từ 4s đến 9s
-            let delay = Math.random() * 5; // Delay bắt đầu
-            
+            let size = Math.random() * 15 + 5; 
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
-            bubble.style.left = leftPos + 'vw';
-            bubble.style.animationDuration = duration + 's';
-            bubble.style.animationDelay = delay + 's';
-            
+            bubble.style.left = (Math.random() * 100) + 'vw';
+            bubble.style.animationDuration = (Math.random() * 5 + 4) + 's';
+            bubble.style.animationDelay = (Math.random() * 5) + 's';
             waterBg.appendChild(bubble);
         }
 
-        // 2. Hiệu ứng Scroll (Cuộn trang) - Intersection Observer
-        const observerOptions = {
-            threshold: 0.1, // Phần tử hiện 10% sẽ kích hoạt
-            rootMargin: "0px 0px -50px 0px"
-        };
-
+        // Hiệu ứng Fade In khi cuộn chuột
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('show-element');
-                    // Không bỏ observe để hiệu ứng chỉ chạy 1 lần:
                     observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-        // Lấy tất cả các class hidden-element
-        const hiddenElements = document.querySelectorAll('.hidden-element');
-        hiddenElements.forEach((el) => observer.observe(el));
+        document.querySelectorAll('.hidden-element').forEach((el) => observer.observe(el));
     </script>
 </body>
 </html>
